@@ -5,6 +5,8 @@ Deploy clusters in an automated fashion
 
 Documentation: https://argo-workflows.readthedocs.io/en/latest/access-token/
 
+API Swagger: https://argo-workflows.readthedocs.io/en/latest/swagger/
+
 ``` bash
 
     # create the role, service account, and bind the account and role together within the argo namespaces
