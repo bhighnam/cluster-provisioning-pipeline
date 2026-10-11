@@ -13,3 +13,11 @@ uninstall-argo-workflow:
 
 run-argo-workflow:
 	kubectl -n argo port-forward deployment/argo-server 2746:2746
+
+######## deploy provisioning pipeline workflow template
+PHONY: deploy-provisioning-pipeline uninstall-provisioning-pipeline
+deploy-provisioning-pipeline:
+	argo template create workflow-templates/provisioning-pipeline/provisioning-pipeline.yaml -n argo
+
+update-provisioning-pipeline:
+	argo template update workflow-templates/provisioning-pipeline/provisioning-pipeline.yaml -n argo
