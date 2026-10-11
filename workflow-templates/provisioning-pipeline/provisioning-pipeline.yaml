@@ -4,7 +4,7 @@ metadata:
   name: provisioning-pipeline
 spec:
   entrypoint: print-message
-  arguments:
+  inputs:
     parameters:
       - name: message
         value: hello world
@@ -16,4 +16,4 @@ spec:
       container:
         image: busybox
         command: [echo]
-        args: ["{Hello world to ---> ${inputs.parameters.message}}"]
+        args: ["{inputs.parameters.message}}"]
