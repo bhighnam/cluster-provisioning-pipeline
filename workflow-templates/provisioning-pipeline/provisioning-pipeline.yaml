@@ -2,18 +2,49 @@ apiVersion: argoproj.io/v1alpha1
 kind: WorkflowTemplate
 metadata:
   name: provisioning-pipeline
+  namespace: argo               # Change to your target namespace if needed
 spec:
-  entrypoint: print-message
-  inputs:
+  entrypoint: provision-pipeline              # Specifies the starting template block
+  arguments:
     parameters:
       - name: message
-        value: hello world
+        value: "Hello, Argo!"   # Default value if none is passed
   templates:
-    - name: print-message
+    - name: provision-pipeline
+      inputs:
+        parameters:
+          - name: message
+      steps:
+        - - name: ingest-json
+            template: ingest-json
+            arguments:
+              parameters:
+                - name: message
+                  value: "{{inputs.parameters.message}}"
+        - - name: start-provisioning
+            template: start-provisioning
+            arguments:
+              parameters:
+                - name: message
+                  value: "{{inputs.parameters.message}}"
+    ############### templates used in the steps above ###############
+
+
+    - name: ingest-json
       inputs:
         parameters:
           - name: message
       container:
-        image: busybox
+        image: alpine:latest
         command: [echo]
-        args: ["{inputs.parameters.message}}"]
+        args: ["Primary step received: {{inputs.parameters.message}}"]
+    
+    
+    - name: start-provisioning
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: alpine:latest
+        command: [echo]
+        args: ["Secondary step received: {{inputs.parameters.message}}"]
